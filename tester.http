@@ -1,0 +1,23 @@
+
+// data to be posted on user sign up
+# POST http://localhost:3000/api/auth/signUp HTTP/1.1
+# content-type: application/json
+
+# {
+#     "name":"Pankaj Shukla",
+#     "RegNo":"18BIT0485",
+#     "email":"pankaj.shukla2018@vitstudent.ac.in",
+#     "mobileNo":7089212082,
+#     "BlockName":"C",
+#     "RoomNo":202,
+#     "ClubCode":10001,
+#     "password":"pankajShukla"
+# } 
+
+POST http://localhost:3000/api/auth/logIn HTTP/1.1
+content-type:application/json
+
+{
+    "RegNo":"18BIT0485",
+    "password":"pankajShukla"
+}
