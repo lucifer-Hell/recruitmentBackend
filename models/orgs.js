@@ -1,25 +1,33 @@
 const Mongoose =require('mongoose');
+const shortId=require('shortid')
 const Schema=Mongoose.Schema;
 
+const userScoreSchema=new Schema({
+    RegNo:Number,name:String,marks:Number
+})
+
 const orgTestsSchema=new Schema({
-    ClubName:String,
-    testCode:String,
+    ClubCode:Number,
+    testId:String,
     start:Boolean,
-    usersScores:[{type:Schema.Types.ObjectId,ref:"User"}],
+    usersScores:[userScoreSchema],
     tests:[{type:Schema.Types.ObjectId,ref:"tests"}]
 })
 
 
 const orgSchema=new Schema({
-    ClubName:String,
-    Email:String,
+    ClubCode:{type:Number,required:true},
+    ClubName:{type:String,unique:true,required:true},
+    Email:{type:String},
     MobileNo:Number,
     ExpectedCandidates:Number,
-    Extras:String
+    Extras:String,
+    password:String
 });
+const userScore=Mongoose.model("userScore",userScoreSchema)
 
-const OrgTestsSchema=Mongoose.model("OrgTestsSchema",orgTestsSchema);
+const OrgTests=Mongoose.model("OrgTests",orgTestsSchema)
 const Org=Mongoose.model("Org",orgSchema);
 module.exports={
-    Org
+    userScore,Org,OrgTests
 }

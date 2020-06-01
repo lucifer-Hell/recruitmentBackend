@@ -1,17 +1,24 @@
-// should be removed later not to keep in auth
-const sercretKey="spfokapofkap'fojkawpfap'ojgpaojgpaefokjapfokap'fokapofkap'ofkap'ofk"
+
 const bcrypt=require('bcrypt');
 const User=require('../models/index').User;
 const jwt=require('jsonwebtoken');
 // here user will be added
 function signUp(req,res,next){
     // use db to save 
-    var user=new User(req.body);
-    user.save().then((result)=>{
-        res.send({msg:"user sucessfully created"})
-    }).catch((err)=>{
-        next(err);
-    })
+    if(User.exists(req.body)){
+       next({err:"user Already exists"})
+    }else{
+        
+        var user=new User(req.body);
+        // hashing is done on user schema place becausse of its async nature
+        // if before hashing user.save ocurr then it would be trouble
+        user.save().then((result)=>{
+            res.send({msg:"user sucessfully created"})
+        }).catch((err)=>{
+            next(err);
+        })
+    }
+   
 }
 function logIn(req,res,next){
     
@@ -26,7 +33,7 @@ function logIn(req,res,next){
                 bcrypt.compare(req.body.password,result.password).then((matched)=>{
                     if(matched){
                        
-                    const token= jwt.sign({id:"result.ObjectId"},sercretKey,{expiresIn:"0.25h"})
+                    const token= jwt.sign({RegNo:result.RegNo,Name:result.name},process.env.secretKey,{expiresIn:"0.25h"})
                     const data={
                         "Name":result.name,
                         "RegNo":result.RegNo,
@@ -34,7 +41,7 @@ function logIn(req,res,next){
                         }
                         res.send(data);
                     }
-                    else res.send("Password is incorrect")
+                    else next({err:"Invalid id or Password Please try again"})
                 }).catch((error)=>{
                     console.log(error)
                     next(error);
@@ -49,4 +56,4 @@ function logIn(req,res,next){
 }
 
 
-module.exports={signUp,logIn}
+module.exports=[signUp,logIn]

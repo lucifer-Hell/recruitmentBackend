@@ -19,10 +19,13 @@ const userSchema=new Schema({
     Score:[userTestScoresSchema],
     password:String
 });
+
+// hashing is done on pre save because of its async nature 
+// if without hashing the password would save in user then it will be trouble
 userSchema.pre('save',function(next){
     //  console.log("this is data:"+data)
-    
-    // console.log(this)
+    // hashing is done 
+    // on the database to prevent seperation of concern
      bcrypt.hash(this.password,5).then((hashedPassword)=>{
         // console.log(hashedPassword);
         this.password=hashedPassword;

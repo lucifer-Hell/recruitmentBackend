@@ -1,7 +1,7 @@
 // main db file 
 const mongoose =require('mongoose');
 const connDb=(req,res,next)=>{
-    mongoose.connect("mongodb+srv://mstc:mstc@cluster0-fovnm.mongodb.net/mstc?retryWrites=true&w=majority",{useNewUrlParser:true,useUnifiedTopology:true}).then(()=>{
+    mongoose.connect(process.env.DB_URL,{useNewUrlParser:true,useUnifiedTopology:true}).then(()=>{
         console.log("db connected");
         next();
     }).catch((err)=>{

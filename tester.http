@@ -1,6 +1,6 @@
 
-// data to be posted on user sign up
-# POST http://localhost:3000/api/auth/signUp HTTP/1.1
+# // data to be posted on user sign up
+# POST http://localhost:3000/api/auth/user/signUp HTTP/1.1
 # content-type: application/json
 
 # {
@@ -14,10 +14,85 @@
 #     "password":"pankajShukla"
 # } 
 
-POST http://localhost:3000/api/auth/logIn HTTP/1.1
-content-type:application/json
+# POST http://localhost:3000/api/auth/user/logIn HTTP/1.1
+# content-type:application/json
+
+# {
+#     "RegNo":"18BIT0485",
+#     "password":"pankajShukla"
+#  }
+
+
+# POST http://localhost:3000/api/auth/org/signUp HTTP/1.1
+# Content-Type: application/json
+
+# {
+#     "ClubName":"MSTC",
+#     "Email":"pankajshuklajavacoder@gmail.com",
+#     "MobileNo":12346,
+#     "ExpectedCandidates":2,
+#     "Extras":"no",
+#     "password":"mstc"
+# }
+
+
+# POST http://localhost:3000/api/auth/org/logIn HTTP/1.1
+# Content-Type: application/json
+
+# {
+#     "ClubCode":"1000",
+#     "password":"mstc"
+# }
+
+
+# POST http://localhost:3000/api/post/org/addTest HTTP/1.1
+# Content-Type: application/json
+
+# {
+#     "ClubCode":1000,
+#     "testId":1000,
+#     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJDbHViQ29kZSI6MTAwMCwiQ2x1Yk5hbWUiOiJNU1RDIiwiaWF0IjoxNTkxMDA3MTM5LCJleHAiOjE1OTEwMTA3Mzl9.rax6Uej-hosg63XpqihQ7OsbSaX6GFWbcuIN5WurWB8"
+# }
+
+
+# POST http://localhost:3000/api/post/org/addQuestion HTTP/1.1
+# Content-Type: application/json
+
+# {
+#     "ClubCode":1000,
+#     "testId":1000,
+#     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJDbHViQ29kZSI6MTAwMCwiQ2x1Yk5hbWUiOiJNU1RDIiwiaWF0IjoxNTkxMDA1MTY3LCJleHAiOjE1OTEwMDg3Njd9.g3iMBEHXNiSRv8P_3xw9DqHOmNR5jA24f_JyGXgr86A",
+#     "MaxMarks":50,
+#     "perQuestionMarks":1,
+#     "negativeMarks":0,
+#     "questions":[
+#         {
+# 		 "Qid":1,
+# 		 "ques":"What is full form of stc ?",  	
+# 		 "ans":"STC",
+# 		 "options":["val1","STC","opt2"]
+#          }		
+#  	]
+# }
+
+POST  http://localhost:3000/api/post/user/takeTest HTTP/1.1
+Content-Type: application/json
 
 {
+    "testId":1000,
+    "ClubCode":1000,
     "RegNo":"18BIT0485",
-    "password":"pankajShukla"
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJSZWdObyI6IjE4QklUMDQ4NSIsIk5hbWUiOiJQYW5rYWogU2h1a2xhIiwiaWF0IjoxNTkxMDEzMzk5LCJleHAiOjE1OTEwMTQyOTl9.F1yU8jcA3iyzL_1o0UAL4qw1mqLSreL1HEXOxdsWqfY"
+}
+
+POST http://localhost:3000/api/post/user/submitTest HTTP/1.1
+Content-Type: application/json
+
+{
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJSZWdObyI6IjE4QklUMDQ4NSIsIk5hbWUiOiJQYW5rYWogU2h1a2xhIiwiaWF0IjoxNTkxMDEzMzk5LCJleHAiOjE1OTEwMTQyOTl9.F1yU8jcA3iyzL_1o0UAL4qw1mqLSreL1HEXOxdsWqfY",
+    "testId":1000,
+    "RegNo":"18BIT0485",
+    "Name":"Pankaj Shukla",
+    "ClubCode":1000,
+    "ans":["STC"]
 }

@@ -1,29 +1,26 @@
 const Mongoose =require('mongoose');
 const Schema=Mongoose.Schema;
 
-const optionSchema=new Schema({
-    value:String
-})
-const Option=Mongoose.model("Option",optionSchema);
+
 
 const questionSchema=new Schema({
-    Qid:Number,
+    Qid:{type:Number,unique:true},
     ques:String,
     ans:String,
-    options:[optionSchema]
+    options:[String]
 })
 
 const testSchema=new Schema({
-    testId:String,
+    ClubCode:{type:Number,required:true},
+    testId:{type:Number,unique:true,required:true},
     MaxMarks:Number,
     perQuestionMarks:Number,
     negativeMarks:Number,
-    questions:[questionSchema],
-
+    questions:[questionSchema]
 })
 const Question=Mongoose.model("Question",questionSchema);
 const Test=Mongoose.model("Test",testSchema);
 
 module.exports={
-    Test
+    Test,Question
 }
