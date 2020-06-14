@@ -3,12 +3,13 @@ const shortId=require('shortid')
 const Schema=Mongoose.Schema;
 
 const userScoreSchema=new Schema({
-    RegNo:Number,name:String,marks:Number
+    RegNo:String,name:String,marks:Number
 })
 
 const orgTestsSchema=new Schema({
+    
     ClubCode:Number,
-    testId:String,
+    testId:Number,
     start:Boolean,
     usersScores:[userScoreSchema],
     tests:[{type:Schema.Types.ObjectId,ref:"tests"}]

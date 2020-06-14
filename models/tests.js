@@ -4,7 +4,7 @@ const Schema=Mongoose.Schema;
 
 
 const questionSchema=new Schema({
-    Qid:{type:Number,unique:true},
+    _id:{type:Number},
     ques:String,
     ans:String,
     options:[String]

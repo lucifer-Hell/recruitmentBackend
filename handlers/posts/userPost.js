@@ -27,49 +27,60 @@ function takeTest(req,res,next){
    else next("test id or club code is not present")
 }
 function submitTest(req,res,next){
-    if(req.body.ClubCode && req.body.testId){
-        Test.findOne({ClubCode:req.body.ClubCode,testId:req.body.testId},(err,res)=>{
-            if(err) next(err)
-            else{
-                if(result==null)next("no such club or test found")
-                else{
-                        let marks=0;
-                        result.questions.forEach((question,index)=>{
-                            if(question.ans==req.body.ans[index])marks++ 
-                        })
-                        var userData=new userScore({RegNo:req.body.RegNo,name:req.body.name,marks})
-                        OrgTests.findOne({ClubCode:req.body.ClubCode,testId:req.body.testId},(err,result)=>{
-                            if(err)next(err)
-                            else{
-                              
-                                    if(result==null){
-                                        // first time creation
+    // passing all the validation
 
-                                        var data={
-                                        ClubCode:req.body.ClubCode,
-                                        testCode:req.body.testId,
-                                        usersScores:[userData],
-                                        tests:[req.body.testId]
-                                        }
-                                        result=new OrgTests(data)
-                                        result.save().catch((err)=>next(err))
-                                    }
-                                    else{
-                                        // already created then
-                                        result.usersScores.addToSet(userData)
-                                        result.tests.addToSet(req.body.testId)
-                                        res.send("sucessfully submitted")
-                                    }
+            if(req.body.testId==null) next("testId not given")
+            Test.findOne({testId:req.body.testId},(err,result)=>{
+                if(err)next(err)
+                else if(result==null) next("no such test exists")
+                else{
+                        // iterate through answer array
+                        // and find answer values 
+                        let totalMarks=0;
+                        let match=new Map()
+                        result.questions.forEach((value)=>{
+                                match.set(value._id,value.ans)
+
+                        })
+                        // itertate through object array and 
+                        //get the current score
+                        req.body.ans.forEach((value)=>{
+                            // check if key is there
+                            let correctAns=match.get(value._id)
+                            // add marks if correct 
+                            if(correctAns!=null && correctAns==value.ans){
+                                    totalMarks++
                             }
                         })
-                        
+                        // push the result to user
+                    
+                        console.log(totalMarks)
+                        OrgTests.findOne({testId:req.body.testId},(err,result1)=>{
+                            if(err)next(err)
+                            else if(result1==null){
+                                next("No such test exists")
+                               
+                            }
+                            else {
+                                   // add user 
+                                    let newUser=userScore({RegNo:req.body.RegNo,marks:totalMarks,name:req.body.Name})
+                                   
+                                    // for first entry
+                                    if(result1.usersScores==null){
 
+                                        result1.usersScores=[newUser];
+                                        
+                                    }
+                                    else result1.usersScores.push(newUser)
+                                    console.log(result1)
+                                    result1.save()
+                                    .then((result1)=>res.send("result1 saved "))
+                                    .catch((err)=>next(err))
+                            }
+
+                        })
                 }
-            }
-        })
-
-    }
-    else next("club code or test id is not present")
+            })
 }
 
 module.exports=[takeTest,submitTest]

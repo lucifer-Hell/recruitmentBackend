@@ -1,5 +1,6 @@
 const User=require('../models/users').User
 const Org=require('../models/index').Org
+const OrgTest=require('../models/orgs').OrgTests
 const jwt=require('jsonwebtoken')
 
 function verify(req,res,next){
@@ -39,4 +40,27 @@ function clubVerify(req,res,next){
     else next(err)
 }
 
-module.exports=[verify,clubVerify]
+function testVerify(req,res,next){
+    if(req.body.testId==null)next("test id is empty")
+    OrgTest.findOne({testId:req.body.testId},(err,result)=>{
+        if(err)next(err)
+        else{
+            if(result==null) next("testID doesnot exists")
+            else{
+                // check if user already attempted
+                let found=false;
+                result.usersScores.forEach((value)=>{
+                    if(value.RegNo==req.body.RegNo){
+                        found=true
+                        
+                    }
+
+                })
+                if(found)next("user already attempted")
+                else next()
+            }
+        }
+    })
+}
+
+module.exports=[verify,clubVerify,testVerify]

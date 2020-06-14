@@ -2,6 +2,7 @@ const Mongoose =require('mongoose');
 const Schema=Mongoose.Schema;
 const bcrypt=require('bcrypt');
 const userTestScoresSchema=new Schema({
+
     testId:Number,
     score:Number,
     attempted:Boolean
@@ -45,7 +46,7 @@ const User=Mongoose.model("User",userSchema)
 
 
 module.exports={
-       User
+       User,UserTestScores
 }
 
 
