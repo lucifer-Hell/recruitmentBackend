@@ -7,13 +7,15 @@ const router =express.Router();
 // serok
 const [userVerify,clubVerify,testVerify]=require('../middlewares/userVer')
 const orgVerify=require('../middlewares/orgVer').verify
-const [addTest,addQuestion,checkResult]=require('../handlers/posts/orgPost')
+const [addTest,addQuestion,checkResult,deleteQuestion,modifyQuestion]=require('../handlers/posts/orgPost')
 const[takeTest,submitTest]=[...require('../handlers/posts/userPost')]
 // at intial state user is only capable of posting answers
 router.route("/user/takeTest").post(userVerify,testVerify,takeTest)
 router.route("/user/submitTest").post(userVerify,testVerify,clubVerify,submitTest)
 router.route("/org/addTest").post((orgVerify),addTest)
 router.route("/org/addQuestion").post((orgVerify),(addQuestion))
+router.route("/org/modifyQuestion").post((orgVerify),(modifyQuestion))
+router.route("/org/deleteQuestion").post((orgVerify),(deleteQuestion))
 router.route("/org/checkResult").post((orgVerify),(checkResult))
 router.route("*").all((req,res,next)=>res.send("route not found"));
 // serok.

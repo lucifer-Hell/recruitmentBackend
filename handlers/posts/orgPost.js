@@ -1,3 +1,5 @@
+const tests = require('../../models/tests')
+
 // here posts of questions and test schemas will be handled
 const Test=require('../../models/index').Test
 const Question=require('../../models/tests').Question
@@ -53,6 +55,58 @@ function addQuestion(req,res,next){
     }
 }
 
+function modifyQuestion(req,res,next){
+    if(!req.body.testId)next("question test id is req");
+    Test.findOne({testId:req.body.testId},(err,result)=>{
+        if(err)next(err)
+        else{
+                if(result==null)next("no such test id exists")
+                else{
+                    var newQues=new Question(req.body.question);
+                   result.questions= result.questions.map((q,index)=>{
+                        //replace with new ques
+                        if(q._id==req.body.question._id){
+                             return newQues;
+                            
+                        }
+                        else return q;
+
+                    })
+                    result.save((err,val)=>{
+                        if(err)next(err)
+                        else res.send(val);
+                    })
+                }
+        }
+
+
+    })
+    
+    
+}
+
+function deleteQuestion(req,res,next){
+    if(!req.body.question._id)next("Question id cant be empty")
+    else{
+            Test.findOne({testId:req.body.testId},(err,result)=>{
+                if(err)next(err)
+                else{
+                    if(!result)next("Result is empty")
+                    else{
+                        result.questions=result.questions.filter((q)=>{
+                            if(q._id==req.body.question._id) {
+                                return false;
+                            }
+                            else return true;
+                        })
+                        result.save().then((result)=>res.send(result)).catch((err)=>res.send(err))
+
+                    }
+                }
+            })
+    }
+}
+
 function checkResult(req,res,next){
     if(req.body.testId==null) next("test id is null")
     else {
@@ -70,5 +124,5 @@ function checkResult(req,res,next){
 
 
 module.exports=[
-    addTest,addQuestion,checkResult
+    addTest,addQuestion,checkResult,deleteQuestion,modifyQuestion
 ]
