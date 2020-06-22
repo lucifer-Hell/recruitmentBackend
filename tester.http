@@ -65,58 +65,51 @@
 # }
 
 
-# POST http://localhost:3000/api/post/org/addQuestion HTTP/1.1
+# POST http://localhost:3000/api/post/org/questions/:id HTTP/1.1
 # Content-Type: application/json
 
 # {
 #     "ClubCode":1000,
 #     "testId":1000,
-#     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJDbHViQ29kZSI6MTAwMCwiQ2x1Yk5hbWUiOiJNU1RDIiwiaWF0IjoxNTkyMTI0MDEyLCJleHAiOjE1OTIxMjc2MTJ9.pPj--SJuuHgqa4OHSllOPuv6u-cpqcXgSbGHE1d6kK8",
-#     "MaxMarks":50,
-#     "perQuestionMarks":1,
-#     "negativeMarks":0,
-#     "questions":[
+#     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJDbHViQ29kZSI6MTAwMCwiQ2x1Yk5hbWUiOiJNU1RDIiwiaWF0IjoxNTkyODIwODkxLCJleHAiOjE1OTI4MjQ0OTF9.EVveLRLYMW5pBTy4385UcaLMNfNykQmA7WkwUvHXCHY",
+#     "question":
 #         {
-# 		 "_id":1,
 # 		 "ques":"What is full form of MSTC ?",  	
 # 		 "ans":"STC",
 # 		 "options":["student  center","STC","student dc"]
 #          }		
-#  	]
+ 	
 # }
 
-# POST http://localhost:3000/api/post/org/modifyQuestion HTTP/1.1
+// remeber in this route you only need to put the part which is to be updated
+// no need to put all the part
+// id is compulsory in url part
+
+# PUT http://localhost:3000/api/post/org/questions/:id HTTP/1.1
 # Content-Type: application/json
 
 # {
 #     "ClubCode":1000,
 #     "testId":1000,
-#     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJDbHViQ29kZSI6MTAwMCwiQ2x1Yk5hbWUiOiJNU1RDIiwiaWF0IjoxNTkyNDcwODY4LCJleHAiOjE1OTI0NzQ0Njh9.alhi6rlloLzj3ezedy54GW79cBzLiQe8JROvkxs9yz8",
+#     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJDbHViQ29kZSI6MTAwMCwiQ2x1Yk5hbWUiOiJNU1RDIiwiaWF0IjoxNTkyODIwODkxLCJleHAiOjE1OTI4MjQ0OTF9.EVveLRLYMW5pBTy4385UcaLMNfNykQmA7WkwUvHXCHY",
 #     "question":
 #         {
-# 		 "_id":1,
-# 		 "ques":"What is full form of BIT ?",  	
-# 		 "ans":"BATCH OF IT",
-# 		 "options":["student  center","BATCH OF IT","STC","student dc"]
+#          "options":["BATCH OF IT"],
+# 		 "ques":"What is full form of BAKARBAZI ?",  	
+# 		 "ans":"BATCH OF IT"
 #          }		
  	
 # }
 
 
-POST http://localhost:3000/api/post/org/deleteQuestion HTTP/1.1
-Content-Type: application/json
+# DELETE  http://localhost:3000/api/post/org/questions/:id HTTP/1.1
+# Content-Type: application/json
 
-{
-    "ClubCode":1000,
-    "testId":1000,
-    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJDbHViQ29kZSI6MTAwMCwiQ2x1Yk5hbWUiOiJNU1RDIiwiaWF0IjoxNTkyNDcwODY4LCJleHAiOjE1OTI0NzQ0Njh9.alhi6rlloLzj3ezedy54GW79cBzLiQe8JROvkxs9yz8",
-    "question":
-        {
-		 "_id":1
-         }		
-
- 	
-}
+# {
+#     "ClubCode":1000,
+#     "testId":1000,
+#      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJDbHViQ29kZSI6MTAwMCwiQ2x1Yk5hbWUiOiJNU1RDIiwiaWF0IjoxNTkyODIwODkxLCJleHAiOjE1OTI4MjQ0OTF9.EVveLRLYMW5pBTy4385UcaLMNfNykQmA7WkwUvHXCHY"
+# }
 
 
 

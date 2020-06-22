@@ -6,7 +6,7 @@ const Question=require('../../models/tests').Question
 const OrgTests=require('../../models/orgs').OrgTests
 
 function addTest(req,res,next){
-    // check if test name already exits
+    // check if test name already exists
     if(req.body.testId){
         Test.findOne({testId:req.body.testId},(err,result)=>{
             if(err) next(err)
@@ -31,22 +31,21 @@ function addTest(req,res,next){
 }
 
 function addQuestion(req,res,next){
+    if(!req.params.id)next("Question content can not be empty")
     if(req.body.testId){
         //check if test exists
         Test.findOne({testId:req.body.testId},(err,result)=>{
             if(err)next(err)
             else{
-                if(result==null)next({err:"no such test id exists"})
+                if(result==null)next("no such test id exists")
                 else{   
-                        
-                        req.body.questions.forEach((value)=>{
+                            
+                            const value ={...(req.body.question),_id:req.params.id}
                             result.questions.addToSet(new Question(value))
-                        })
-                        
-                        result.save((err,result)=>{
-                            if(err)next(err)
-                            else res.send({result})
-                        })
+                            result.save((err,result)=>{
+                                if(err)next(err)
+                                else res.send({result})
+                            })
                 }
             }
 
@@ -56,17 +55,24 @@ function addQuestion(req,res,next){
 }
 
 function modifyQuestion(req,res,next){
-    if(!req.body.testId)next("question test id is req");
+    if(!req.params.id)next("Question content can not be empty")
+    if(!req.body.testId)next("Test id is req");
     Test.findOne({testId:req.body.testId},(err,result)=>{
         if(err)next(err)
         else{
                 if(result==null)next("no such test id exists")
                 else{
-                    var newQues=new Question(req.body.question);
+                //    console.log(req.body.question)
+                //    console.log(req.params.id)
+                    let ques={};
                    result.questions= result.questions.map((q,index)=>{
                         //replace with new ques
-                        if(q._id==req.body.question._id){
-                             return newQues;
+
+                        if(q._id==req.params.id){
+                           
+                            var newQues={...req.body.question,_id:req.params.id};
+                            ques=new Question(newQues)
+                             return ques
                             
                         }
                         else return q;
@@ -74,27 +80,23 @@ function modifyQuestion(req,res,next){
                     })
                     result.save((err,val)=>{
                         if(err)next(err)
-                        else res.send(val);
+                        else {res.send(ques);}
                     })
                 }
         }
-
-
-    })
-    
-    
+    }) 
 }
 
 function deleteQuestion(req,res,next){
-    if(!req.body.question._id)next("Question id cant be empty")
+    if(!req.params.id)next("Question id cant be empty")
     else{
             Test.findOne({testId:req.body.testId},(err,result)=>{
                 if(err)next(err)
                 else{
-                    if(!result)next("Result is empty")
+                    if(!result)next("test with given testid is not found")
                     else{
                         result.questions=result.questions.filter((q)=>{
-                            if(q._id==req.body.question._id) {
+                            if(q._id==req.params.id) {
                                 return false;
                             }
                             else return true;
