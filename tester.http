@@ -65,6 +65,15 @@
 # }
 
 
+# POST http://localhost:3000/api/post/org/viewQuestions HTTP/1.1
+# Content-Type: application/json
+
+# {
+#     "ClubCode":1000,
+#     "testId":1000,
+#     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJDbHViQ29kZSI6MTAwMCwiQ2x1Yk5hbWUiOiJNU1RDIiwiaWF0IjoxNTkyOTA3ODcyLCJleHAiOjE1OTI5MTE0NzJ9.Q8xwNyTCh71BWPyvtLxk_WN867hDqkhFgFC8Bw08EGs"
+# }
+
 # POST http://localhost:3000/api/post/org/questions/:id HTTP/1.1
 # Content-Type: application/json
 
@@ -81,8 +90,7 @@
  	
 # }
 
-// remeber in this route you only need to put the part which is to be updated
-// no need to put all the part
+
 // id is compulsory in url part
 
 # PUT http://localhost:3000/api/post/org/questions/:id HTTP/1.1

@@ -86,6 +86,19 @@ function modifyQuestion(req,res,next){
         }
     }) 
 }
+function viewQuestions(req,res,next){
+    
+        Test.findOne({testId:req.body.testId,ClubCode:req.body.ClubCode},(err,result)=>{
+            if(err)next(err)
+            else {
+                if(!result)next("no such test exists")
+                else{
+                    res.send(result.questions)
+                }
+            }
+        })
+   
+}
 
 function deleteQuestion(req,res,next){
     if(!req.params.id)next("Question id cant be empty")
@@ -126,5 +139,5 @@ function checkResult(req,res,next){
 
 
 module.exports=[
-    addTest,addQuestion,checkResult,deleteQuestion,modifyQuestion
+    addTest,addQuestion,checkResult,deleteQuestion,modifyQuestion,viewQuestions
 ]
